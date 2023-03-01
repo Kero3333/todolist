@@ -7,7 +7,7 @@ class Sport extends Tache {
 
   @override
   String toString() {
-    return "$name ---- ${time?.inSeconds} ---- ${isChecked ? '🗹' : '☐'}";
+    return "$name";
   }
 
   @override

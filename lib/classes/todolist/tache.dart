@@ -14,6 +14,7 @@ abstract class Tache {
   void toChecked();
   void toUnchecked();
   get getTheme => "$theme".split('.')[1];
+  get getName => "$name";
 }
 
 // class Course extends Tache {

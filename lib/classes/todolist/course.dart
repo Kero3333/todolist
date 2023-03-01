@@ -6,8 +6,10 @@ class Course extends Tache {
 
   @override
   String toString() {
-    return "$name ---- quantity: $quantity ----- ${isChecked ? '🗹' : '☐'}";
+    return "$name";
   }
+
+  get getQuantity => quantity;
 
   @override
   void toChecked() {
