@@ -29,29 +29,47 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  // to sorted the list
   Map getMapOfTaskSorted(List<Tache> listTask) {
-    Map listeTaskPerCategory = {};
+    Map listTaskPerCategory = {};
     listTask.forEach((el) {
-      if (!listeTaskPerCategory.containsKey(el.getTheme)) {
-        listeTaskPerCategory[el.getTheme] = [];
+      if (!listTaskPerCategory.containsKey(el.getTheme)) {
+        listTaskPerCategory[el.getTheme] = [];
       }
-      listeTaskPerCategory[el.getTheme].add(el);
+      listTaskPerCategory[el.getTheme].add(el);
     });
-    return listeTaskPerCategory;
+    return listTaskPerCategory;
+  }
+
+  bool boolTest = false;
+
+  test2() {
+    boolTest = boolTest ? false : true;
+    print(boolTest);
   }
 
   Column displayTasks(List<Tache> listTask, [int nbToDisplay = 3]) {
     Column listTasks =
         Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: []);
-    Map listeTaskPerCategory = getMapOfTaskSorted(listTask);
+    Map listTaskPerCategory = getMapOfTaskSorted(listTask);
 
-    listeTaskPerCategory.keys.forEach((element) {
+    listTaskPerCategory.keys.forEach((element) {
       List<Widget> listTasksChildren = [];
       for (int i = 0; i < nbToDisplay; i++) {
-        if (listeTaskPerCategory[element].length > i) {
-          listTasksChildren.add(Text(
-            "${listeTaskPerCategory[element][i]}",
-            style: const TextStyle(fontSize: 20),
+        if (listTaskPerCategory[element].length > i) {
+          listTasksChildren.add(Container(
+            margin: const EdgeInsets.all(10.0),
+            width: double.maxFinite,
+            color: Colors.deepOrange,
+            child: TextButton(
+              onPressed: () => test2(),
+              child: Text(
+                "${listTaskPerCategory[element][i]}",
+                style: const TextStyle(fontSize: 20, color: Colors.black
+                    // backgroundColor: Colors.cyan,
+                    ),
+              ),
+            ),
           ));
         }
       }
@@ -83,7 +101,7 @@ class _HomePage extends State<HomePage> {
     listeTache.add(Course("Bounty", 5));
 
     return Column(
-      children: [displayTasks(listeTache, 5)],
+      children: [displayTasks(listeTache, 3)],
     );
   }
 
@@ -95,13 +113,13 @@ class _HomePage extends State<HomePage> {
       ),
       body: Center(
           child: (Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Text(
-            "Liste de Tâches :",
+            "Liste des Tâches :",
             style: TextStyle(fontSize: 50),
           ),
-          _test()
+          _test(),
         ],
       ))),
     );
