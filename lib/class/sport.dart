@@ -1,6 +1,6 @@
-import 'tache.dart';
+import 'task.dart';
 
-class Sport extends Tache {
+class Sport extends Task {
   Duration? time;
 
   Sport(String name, this.time) : super(name, Theme.sport);
@@ -8,15 +8,5 @@ class Sport extends Tache {
   @override
   String toString() {
     return "$name";
-  }
-
-  @override
-  void toChecked() {
-    isChecked = true;
-  }
-
-  @override
-  void toUnchecked() {
-    isChecked = false;
   }
 }

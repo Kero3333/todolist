@@ -1,6 +1,6 @@
-import 'tache.dart';
+import 'task.dart';
 
-class Course extends Tache {
+class Course extends Task {
   int quantity = 0;
   Course(String name, this.quantity) : super(name, Theme.course);
 
@@ -10,14 +10,4 @@ class Course extends Tache {
   }
 
   get getQuantity => quantity;
-
-  @override
-  void toChecked() {
-    isChecked = true;
-  }
-
-  @override
-  void toUnchecked() {
-    isChecked = false;
-  }
 }

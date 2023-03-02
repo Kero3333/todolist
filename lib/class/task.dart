@@ -2,22 +2,21 @@
 
 enum Theme { course, sport, travail }
 
-abstract class Tache {
+abstract class Task {
   String? name;
   bool isChecked = false;
   Theme? theme;
 
-  Tache(this.name, this.theme);
+  Task(this.name, this.theme);
 
   @override
   String toString();
-  void toChecked();
-  void toUnchecked();
   get getTheme => "$theme".split('.')[1];
   get getName => "$name";
+  set setChecked(bool value) => isChecked = value;
 }
 
-// class Course extends Tache {
+// class Course extends Task {
 //   int quantity = 0;
 //   Course(String name, this.quantity) : super(name, Theme.course);
 
@@ -37,7 +36,7 @@ abstract class Tache {
 //   }
 // }
 
-// class Sport extends Tache {
+// class Sport extends Task {
 //   Duration? time;
 
 //   Sport(String name, this.time) : super(name, Theme.sport);
@@ -58,7 +57,7 @@ abstract class Tache {
 //   }
 // }
 
-// class Travail extends Tache {
+// class Travail extends Task {
 //   Travail(String name) : super(name, Theme.travail);
 
 //   @override
@@ -77,7 +76,7 @@ abstract class Tache {
 //   }
 // }
 
-// Map getMapOfTaskSorted(List<Tache> listTask) {
+// Map getMapOfTaskSorted(List<Task> listTask) {
 //   Map listeTaskPerCategory = {};
 //   listTask.forEach((el) {
 //     if (!listeTaskPerCategory.containsKey(el.getTheme)) {
@@ -99,31 +98,31 @@ abstract class Tache {
 //   });
 // }
 
-// void randomChecked(List<Tache> listTask) {
+// void randomChecked(List<Task> listTask) {
 //   listTask.forEach((element) {
 //     if (Random().nextBool()) element.toChecked();
 //   });
 // }
 
 // void main(List<String> arguments) {
-//   List<Tache> listeTache = [];
+//   List<Task> listeTask = [];
 //   Course kinder = Course("Kinder Bueno", 2);
-//   listeTache.add(kinder);
+//   listeTask.add(kinder);
 //   kinder.toChecked();
 //   kinder.toUnchecked();
 //   Sport triathlon = Sport("Triathlon", Duration(minutes: 40));
-//   listeTache.add(triathlon);
-//   listeTache.add(Course("KitKat", 5));
-//   listeTache.add(Sport("Trail", Duration(hours: 2)));
-//   listeTache.add(Course("Nesquik", 4));
-//   listeTache.add(Course("Mars", 1));
-//   listeTache.add(Course("Twix", 3));
-//   listeTache.add(Sport("Marathon", Duration(hours: 6)));
-//   listeTache.add(Course("Bounty", 5));
+//   listeTask.add(triathlon);
+//   listeTask.add(Course("KitKat", 5));
+//   listeTask.add(Sport("Trail", Duration(hours: 2)));
+//   listeTask.add(Course("Nesquik", 4));
+//   listeTask.add(Course("Mars", 1));
+//   listeTask.add(Course("Twix", 3));
+//   listeTask.add(Sport("Marathon", Duration(hours: 6)));
+//   listeTask.add(Course("Bounty", 5));
 
-//   randomChecked(listeTache);
+//   randomChecked(listeTask);
 
-//   Map listeTacheParCategory = getMapOfTaskSorted(listeTache);
+//   Map listeTaskParCategory = getMapOfTaskSorted(listeTask);
 
-//   displayTasks(listeTacheParCategory, 3);
+//   displayTasks(listeTaskParCategory, 3);
 // }
