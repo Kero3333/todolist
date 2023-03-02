@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todolist/class/course.dart';
 import 'package:todolist/class/sport.dart';
 import 'package:todolist/class/task.dart';
+import 'package:todolist/widgets/my_adding_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -86,8 +87,12 @@ class _MyHomePage extends State<MyHomePage> {
                   icon: const Icon(Icons.delete, size: 20, color: Colors.red),
                   onPressed: () {
                     setState(() {
-                      listTaskPerCategory[element]?.removeWhere((itemTask) =>
-                          listTaskPerCategory[element]![i] == itemTask);
+                      taskList.removeWhere((itemTask) {
+                        print(listTaskPerCategory[element]![i]);
+                        print(itemTask);
+                        return listTaskPerCategory[element]![i] == itemTask;
+                      });
+                      print(taskList);
                     });
                   },
                 ),
@@ -142,42 +147,9 @@ class _MyHomePage extends State<MyHomePage> {
 
   Column _test() {
     return Column(
-      children: [displayTasks(taskList, 4)],
+      children: [displayTasks(taskList, 10)],
     );
   }
-
-  // children: <Widget>[
-  //   const ExpansionTile(
-  //     title: Text('ExpansionTile 1'),
-  //     subtitle: Text('Trailing expansion arrow icon'),
-  //     children: <Widget>[
-  //       ListTile(title: Text('This is tile number 1')),
-  //     ],
-  //   ),
-  //   ExpansionTile(
-  //     title: const Text('ExpansionTile 2'),
-  //     subtitle: const Text('Custom expansion arrow icon'),
-  //     trailing: Icon(
-  //       _customTileExpanded
-  //           ? Icons.arrow_drop_down_circle
-  //           : Icons.arrow_drop_down,
-  //     ),
-  //     children: const <Widget>[
-  //       ListTile(title: Text('This is tile number 2')),
-  //     ],
-  //     onExpansionChanged: (bool expanded) {
-  //       setState(() => _customTileExpanded = expanded);
-  //     },
-  //   ),
-  //   const ExpansionTile(
-  //     title: Text('ExpansionTile 3'),
-  //     subtitle: Text('Leading expansion arrow icon'),
-  //     controlAffinity: ListTileControlAffinity.leading,
-  //     children: <Widget>[
-  //       ListTile(title: Text('This is tile number 3')),
-  //     ],
-  //   ),
-  // ],
 
   @override
   Widget build(BuildContext context) {
@@ -190,11 +162,21 @@ class _MyHomePage extends State<MyHomePage> {
       ),
       body: Center(
           child: (Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _test(),
         ],
       ))),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return const MyAddingPage();
+          }));
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

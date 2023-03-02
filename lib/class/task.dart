@@ -1,6 +1,6 @@
 // import 'dart:math';
 
-enum Theme { course, sport, travail }
+enum Theme { course, sport, work }
 
 abstract class Task {
   String? name;

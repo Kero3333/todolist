@@ -1,7 +1,7 @@
 import 'task.dart';
 
-class Travail extends Task {
-  Travail(String name) : super(name, Theme.travail);
+class Work extends Task {
+  Work(String name) : super(name, Theme.work);
 
   @override
   String toString() {
