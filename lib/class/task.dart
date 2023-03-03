@@ -13,6 +13,7 @@ abstract class Task {
   String toString();
   get getTheme => "$theme".split('.')[1];
   get getName => "$name";
+  set setName(String value) => name = value;
   set setChecked(bool value) => isChecked = value;
 }
 

@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todolist/class/course.dart';
 import 'package:todolist/class/sport.dart';
 import 'package:todolist/class/task.dart' as task;
+import 'package:todolist/widgets/add_alert_dialog.dart';
 
 import '../class/work.dart';
 // import 'package:todolist/widgets/my_adding_page.dart';
@@ -16,6 +18,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePage extends State<MyHomePage> {
   List<task.Task> taskList = [];
+  Map<dynamic, List<bool>> isEdit = {};
 
   @override
   void initState() {
@@ -30,6 +33,14 @@ class _MyHomePage extends State<MyHomePage> {
     taskList.add(Course("Twix", 3));
     taskList.add(Sport("Marathon", Duration(hours: 6)));
     taskList.add(Course("Bounty", 5));
+
+    for (var el in taskList) {
+      if (!isEdit.containsKey(el.getTheme)) {
+        isEdit[el.getTheme] = [];
+      }
+      isEdit[el.getTheme]?.add(false);
+    }
+
     super.initState();
   }
 
@@ -45,6 +56,42 @@ class _MyHomePage extends State<MyHomePage> {
     return listTaskPerCategory;
   }
 
+  Text nameOfTask(String nameOfTaskString) {
+    return Text(
+      nameOfTaskString,
+      style: const TextStyle(fontSize: 20, color: Colors.black
+          // backgroundColor: Colors.cyan,
+          ),
+    );
+  }
+
+  String newName = "";
+
+  Container changeNameOfTask(task.Task element) {
+    return Container(
+        height: 40,
+        width: 280,
+        child: TextField(
+          obscureText: false,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: "${element.getName}",
+          ),
+          onChanged: (String? value) {
+            setState(() {
+              newName = value!;
+            });
+            // element.setName = value!;
+          },
+        ));
+    // return Text(
+    //   'ok',
+    //   style: const TextStyle(fontSize: 20, color: Colors.black
+    //       // backgroundColor: Colors.cyan,
+    //       ),
+    // );
+  }
+
   Column displayTasks(List<task.Task> listTask, [int nbToDisplay = 3]) {
     Column listTasks =
         Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: []);
@@ -52,6 +99,14 @@ class _MyHomePage extends State<MyHomePage> {
         getMapOfTaskSorted(listTask);
 
     for (var element in listTaskPerCategory.keys) {
+      // isEdit = {};
+      // for (var el in taskList) {
+      //   if (!isEdit.containsKey(el.getTheme)) {
+      //     isEdit[el.getTheme] = [];
+      //   }
+      //   isEdit[el.getTheme]?.add(false);
+      // }
+
       List<Widget> listTasksChildren = [];
       for (int i = 0; i < nbToDisplay; i++) {
         if (listTaskPerCategory[element]!.length > i) {
@@ -73,25 +128,60 @@ class _MyHomePage extends State<MyHomePage> {
                                 : true;
                       });
                     }),
-                Text(
-                  "${listTaskPerCategory[element]![i].getName}",
-                  style: const TextStyle(fontSize: 20, color: Colors.black
-                      // backgroundColor: Colors.cyan,
-                      ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, size: 20, color: Colors.red),
-                  onPressed: () {
-                    setState(() {
-                      taskList.removeWhere((itemTask) {
-                        print(listTaskPerCategory[element]![i]);
-                        print(itemTask);
-                        return listTaskPerCategory[element]![i] == itemTask;
-                      });
-                      print(taskList);
-                    });
-                  },
-                ),
+                // Text(
+                //   "${listTaskPerCategory[element]![i].getName}",
+                //   style: const TextStyle(fontSize: 20, color: Colors.black
+                //       // backgroundColor: Colors.cyan,
+                //       ),
+                // ),
+                isEdit[element]![i]
+                    ? changeNameOfTask(listTaskPerCategory[element]![i])
+                    : nameOfTask("${listTaskPerCategory[element]![i].getName}"),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: isEdit[element]![i]
+                          ? const Icon(Icons.check,
+                              size: 20, color: Color.fromARGB(255, 0, 85, 212))
+                          : const Icon(Icons.draw_outlined,
+                              size: 20, color: Color.fromARGB(255, 0, 85, 212)),
+                      onPressed: () {
+                        if (isEdit[element]![i]) {
+                          listTaskPerCategory[element]![i].setName = newName;
+                        }
+                        setState(() {
+                          isEdit[element]![i] =
+                              isEdit[element]![i] ? false : true;
+                        });
+                        // print(isEdit);
+                      },
+                    ),
+                    IconButton(
+                      icon: isEdit[element]![i]
+                          ? const Icon(Icons.cancel,
+                              size: 20, color: Colors.red)
+                          : const Icon(Icons.delete,
+                              size: 20, color: Colors.red),
+                      onPressed: () {
+                        if (isEdit[element]![i]) {
+                          setState(() {
+                            isEdit[element]![i] = false;
+                          });
+                        } else {
+                          setState(() {
+                            taskList.removeWhere((itemTask) {
+                              print(listTaskPerCategory[element]![i]);
+                              print(itemTask);
+                              return listTaskPerCategory[element]![i] ==
+                                  itemTask;
+                            });
+                            print(taskList);
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
           ));
@@ -141,6 +231,13 @@ class _MyHomePage extends State<MyHomePage> {
   List<String> dropdownValues =
       task.Theme.values.map((e) => e.toString().split('.')[1]).toList();
   String dropdownValue = task.Theme.values.first.toString().split('.')[1];
+
+  // Future _openDialog() => showDialog(
+  //       context: context,
+  //       builder: (context) => CupertinoTabView(
+  //         builder: ((context) => AddAlertDialog()),
+  //       ),
+  //     );
 
   Future _openDialog() => showDialog(
       context: context,
@@ -233,6 +330,13 @@ class _MyHomePage extends State<MyHomePage> {
                                 default:
                                   break;
                               }
+                              isEdit = {};
+                              for (var el in taskList) {
+                                if (!isEdit.containsKey(el.getTheme)) {
+                                  isEdit[el.getTheme] = [];
+                                }
+                                isEdit[el.getTheme]?.add(false);
+                              }
                             });
                             print(dropdownValue);
                             print(myController.text);
@@ -258,11 +362,10 @@ class _MyHomePage extends State<MyHomePage> {
       ),
       body: Center(
           child: (Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _drawTasks(),
-        ],
-      ))),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+            _drawTasks(),
+          ]))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigator.push(context,
