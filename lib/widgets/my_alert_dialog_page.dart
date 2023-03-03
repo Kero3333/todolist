@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../class/task.dart' as Task;
+import '../class/task.dart' as task;
 
-class MyAlertDialog extends StatefulWidget {
-  const MyAlertDialog({Key? key, required this.title}) : super(key: key);
+class MyAlertDialogPage extends StatefulWidget {
+  const MyAlertDialogPage({Key? key, required this.title}) : super(key: key);
   final title;
 
   @override
-  State<MyAlertDialog> createState() => _MyAlertDialog();
+  State<MyAlertDialogPage> createState() => _MyAlertDialogPage();
 }
 
-class _MyAlertDialog extends State<MyAlertDialog> {
+class _MyAlertDialogPage extends State<MyAlertDialogPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController myController =
       TextEditingController(text: "myController");
   List<String> dropdownValues =
-      Task.Theme.values.map((e) => e.toString().split('.')[1]).toList();
-  String dropdownValue = Task.Theme.values.first.toString().split('.')[1];
+      task.Theme.values.map((e) => e.toString().split('.')[1]).toList();
+  String dropdownValue = task.Theme.values.first.toString().split('.')[1];
 
   Future _openDialog() => showDialog(
       context: context,
